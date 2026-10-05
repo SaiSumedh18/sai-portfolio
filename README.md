@@ -1,3 +1,18 @@
+# Live portfolio and project demos
+
+Verified October 5, 2026:
+
+- Portfolio: https://saisumedhkaveti.work/
+- TaskFlow (Java / Spring Boot): https://sai-taskflow-demo.onrender.com/
+- FinSight: https://sai-finsight-demo.onrender.com/
+- InsightChat analytics: https://sai-insightchat-demo.onrender.com/
+
+All project demos use Render Free and isolated Neon Free databases. Free backends sleep on inactivity. InsightChat AI answers are disabled under the free-only budget; CSV analytics and charts work. Database credentials stay in private hosting settings, never in this repository. The deployment configuration is `render.yaml`.
+
+Signup and the main project workflows were verified on the public deployments. The portfolio's custom domain uses HTTPS. Historical implementation notes follow.
+
+---
+
 # Sai Sumedh Kaveti — personal portfolio
 
 A responsive, accessible React / TypeScript / Vite website with no tracking, external fonts, backend, or credentials.

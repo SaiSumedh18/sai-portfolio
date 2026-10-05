@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.DS_Store
+.env*
+*.local
+*.tsbuildinfo
+/desktop.png
+/mobile.png
+/final-desktop.jpg
+/final-mobile.jpg
+.vercel/
+/*-refined.jpg
+/experience-flow.jpg
+/*-redesigned.jpg
+/hero-blue.jpg
+/hero-lavender.jpg

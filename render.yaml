@@ -1,0 +1,88 @@
+# Free demo services only; databases are isolated Neon projects.
+services:
+  - type: keyvalue
+    name: sai-finsight-redis
+    region: ohio
+    plan: free
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+  - type: web
+    name: sai-finsight-demo
+    runtime: docker
+    repo: https://github.com/SaiSumedh18/finsight
+    branch: upgrade/finsight-backend
+    dockerfilePath: ./Dockerfile.demo
+    region: ohio
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CACHE_ENABLED
+        value: "true"
+      - key: REDIS_URL
+        fromService:
+          name: sai-finsight-redis
+          type: keyvalue
+          property: connectionString
+  - type: web
+    name: sai-insightchat-demo
+    runtime: docker
+    repo: https://github.com/SaiSumedh18/insightchat-ai
+    branch: upgrade/insightchat-grounding-streaming
+    dockerfilePath: ./Dockerfile.demo
+    region: ohio
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+  - type: web
+    name: sai-taskflow-api
+    runtime: docker
+    repo: https://github.com/SaiSumedh18/taskflow
+    branch: upgrade/taskflow-spring
+    rootDir: spring-server
+    dockerfilePath: ./Dockerfile
+    region: ohio
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: JDBC_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_INIT
+        value: always
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JAVA_TOOL_OPTIONS
+        value: "-XX:MaxRAMPercentage=65 -XX:InitialRAMPercentage=15"
+      - key: CLIENT_URL
+        value: https://sai-taskflow-demo.onrender.com
+  - type: web
+    name: sai-taskflow-demo
+    runtime: static
+    repo: https://github.com/SaiSumedh18/taskflow
+    branch: upgrade/taskflow-spring
+    rootDir: client
+    buildCommand: npm ci && VITE_API_URL="$API_ORIGIN/api" npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_VERSION
+        value: 24.11.0
+      - key: API_ORIGIN
+        fromService:
+          name: sai-taskflow-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

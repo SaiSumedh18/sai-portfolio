@@ -20,6 +20,7 @@ const projects = [
     stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'BullMQ'],
     image: 'finsight.png', alt: 'FinSight dashboard with cash flow, budgets, and recent transactions',
     metric: '18.88 → 3.12 ms', metricLabel: 'Local dashboard p95 · warm cache', repo: 'finsight/tree/upgrade/finsight-backend',
+    demo: 'https://sai-finsight-demo.onrender.com', demoNote: 'Free demo · the first visit may take about a minute to wake up.',
     architecture: ['React interface', 'Express API', 'PostgreSQL + Redis', 'BullMQ CSV worker'],
     engineering: 'The database acts as a durable outbox so accepted imports can be recovered after a queue failure. Invalid CSVs fail without partial data; idempotency prevents duplicate imports.',
     method: 'One paired local k6 comparison: 10,000 synthetic transactions, 10 concurrent users, 30 seconds per run. Cache-disabled baseline ran first; cached run followed 20 warmup requests. This is not a production SLA or cloud benchmark.',
@@ -31,10 +32,10 @@ const projects = [
     stack: ['React', 'Java 21', 'Spring Boot', 'Spring Security', 'PostgreSQL', 'JUnit 5'],
     image: 'taskflow.png', alt: 'TaskFlow Kanban board with to-do, in-progress, and completed tasks',
     metric: 'Java 21 + Spring', metricLabel: 'JWT security · JPA · JUnit / MockMvc', repo: 'taskflow/tree/upgrade/taskflow-spring',
-    demo: 'https://taskflow-1cd4.onrender.com',
+    demo: 'https://sai-taskflow-demo.onrender.com', demoNote: 'Live Java / Spring Boot demo · the backend may take about a minute to wake up.',
     architecture: ['React interface', 'Spring Security', 'Transactional services', 'JPA / PostgreSQL'],
     engineering: 'Row locks serialize membership and task changes. Removing a member clears their assignments atomically and revokes project access, even when their JWT remains valid.',
-    method: 'The public Render demo serves the earlier Node.js implementation. The Spring backend upgrade is available in the repository; the public deployment has not been upgraded.',
+    method: 'The public demo runs the Java 21 / Spring Boot upgrade with a dedicated PostgreSQL database. Signup, project and task creation, membership authorization, and access revocation were verified after deployment.',
   },
   {
     name: 'InsightChat AI', category: 'GROUNDED AI & DATA ANALYTICS',
@@ -44,6 +45,7 @@ const projects = [
     image: 'insightchat.png', alt: 'InsightChat workspace with dataset charts, statistics, and a contextual chat',
     metric: '80–94% less context', metricLabel: 'Locally estimated evidence tokens', repo: 'insightchat-ai',
     sourceUnavailable: true,
+    demo: 'https://sai-insightchat-demo.onrender.com', demoNote: 'Free analytics demo · CSV uploads and charts work. AI chat is disabled until an API budget is enabled.',
     architecture: ['CSV validation', 'All-row statistics', 'Bounded evidence', 'Streamed AI response'],
     engineering: 'Dataset ownership is checked before inference. Failed or aborted responses leave no partial chat turn; completed user and assistant messages are persisted together. The model cannot execute SQL or code.',
     method: 'Three local question fixtures on a synthetic 10,000-row dataset. Token estimates cover evidence JSON only, excluding instructions, history, API framing, and output. No live-model accuracy or cost reduction is claimed. The repository is currently unavailable to public visitors.',
@@ -104,7 +106,7 @@ function ProjectCard({ project, index, onPreview }: { project: Project; index: n
       <p className="eyebrow">{project.category}</p><h3>{project.name}</h3><p className="project-description">{project.description}</p><p>{project.detail}</p>
       <ul className="tags" aria-label={`${project.name} technologies`}>{project.stack.map(tech => <li key={tech}>{tech}</li>)}</ul>
       <div className="actions"><External className="button small" href={project.sourceUnavailable ? links.github : `${links.github}/${project.repo}`}><Icon name="github"/>{project.sourceUnavailable ? 'GitHub profile' : 'View source'}</External>{project.demo && <External className="button small outline" href={project.demo}>Live Demo</External>}</div>
-      {project.demo && <p className="link-note">Live demo: original Node backend. Spring upgrade: source repository.</p>}
+      {project.demo && <p className="link-note">{project.demoNote}</p>}
       {project.sourceUnavailable && <p className="link-note">Source repository isn’t currently public. Browse my other work on GitHub.</p>}
       <details className="engineering-details"><summary>Engineering details & measurement notes</summary><ol className="architecture">{project.architecture.map(step => <li key={step}>{step}</li>)}</ol><p>{project.engineering}</p><p className="method-note">{project.method}</p></details>
     </div>

@@ -32,7 +32,7 @@ npm run preview
 - InsightChat: 80.15–94.09% reduction in locally estimated evidence tokens on three question fixtures, excluding instructions/history/output. No measured live-model accuracy, billing, or cost savings are claimed.
 - InsightChat's documented repository URL returns public HTTP 404 and is absent from the public profile API listing. Its website button therefore points to the working GitHub profile. Replace it with the repository URL when public access is available. No repository visibility was changed.
 
-Validation: lint and production build passed; no runtime browser errors; all images/PDF return 200; all local section anchors resolve; mobile menu closes after selecting a section; no horizontal overflow at 320, 390, and 768 CSS pixels. Desktop/mobile screenshots are `desktop.png` and `mobile.png`.
+Validation: lint and production build passed; no runtime browser errors; all images/PDF return 200; all local section anchors resolve; navigation remains visible without a menu; no horizontal overflow at 320, 390, and 768 CSS pixels. Desktop/mobile screenshots are `desktop.png` and `mobile.png`.
 
 ## Exact external links included
 
@@ -63,7 +63,7 @@ The final design puts projects directly after the hero, with a real FinSight pre
 
 Final review screenshots: `final-desktop.jpg` and `final-mobile.jpg`. These review assets are ignored by Git. `vercel.json` supplies the Vite build/output settings for later deployment approval. No canonical URL is configured because the registered custom domain is not yet connected to a deployment.
 
-Validation: lint/build pass; browser console has no warnings/errors; 320/390/768 px widths have no horizontal overflow; mobile navigation closes after selection; project notes expand/collapse; screenshot dialog opens and closes with Escape; section anchors resolve; current resume returns HTTP 200.
+Validation: lint/build pass; browser console has no warnings/errors; 320/390/768 px widths have no horizontal overflow; navigation remains visible without a menu; project notes expand/collapse; screenshot dialog opens and closes with Escape; section anchors resolve; current resume returns HTTP 200.
 
 October 5 refinement: corrected LinkedIn to the verified public profile /in/saisumedhkaveti/; navigation stays visible at all widths, with no menu toggle; school placeholder badges and footer monogram removed; experience and education use continuous layouts.
 
@@ -72,3 +72,9 @@ October 5 refinement: corrected LinkedIn to the verified public profile /in/sais
 Reviewed Brittany Chiang (https://brittanychiang.com/), Lee Robinson (https://leerob.com/), and Josh Comeau (https://www.joshwcomeau.com/) for clear hierarchy, concise writing, and thoughtful interaction details. Content and layout remain specific to Sai. Skill groups now use technology/category icons from react-icons; social marks use recognizable GitHub/LinkedIn icons plus an email envelope. Degree imagery is generic graduation iconography, not a fabricated university logo. Experience dates are 16px and education dates 14px; footer uses a personal signature, location, and social links. Navigation remains visible and now highlights the section in view. Sticky-header anchor offsets are provided. Resume controls have increased padding and a separate layout column on desktop.
 
 Review screenshots: skills-refined.jpg and education-refined.jpg. All review screenshots should stay out of the eventual source commit. No repository creation, pushes, publishing, or DNS changes performed.
+
+## Public release — October 5, 2026
+
+The user approved public publishing. Source is now at https://github.com/SaiSumedh18/sai-portfolio and GitHub Pages is live at https://saisumedh18.github.io/sai-portfolio/ . The Publish portfolio workflow lints, builds, and deploys updates pushed to main. Earlier review notes describing deferred publishing are historical. The final approved palette is charcoal, white, and blue. No custom domain DNS was modified.
+
+FinSight and TaskFlow links point to their verified upgrade branches so visitors see the architecture described by the portfolio. InsightChat remains private; public hosting does not require exposing its source. Full project hosting remains pending hosting-account sign-in, database allocation, and free-tier configuration.

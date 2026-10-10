@@ -51,6 +51,18 @@ const projects = [
     engineering: 'Dataset ownership is checked before inference. Failed or aborted responses leave no partial chat turn; completed user and assistant messages are persisted together. The model cannot execute SQL or code.',
     method: 'Three local question fixtures on a synthetic 10,000-row dataset. Token estimates cover evidence JSON only, excluding instructions, history, API framing, and output. No live-model accuracy or cost reduction is claimed. The repository is currently unavailable to public visitors.',
   },
+  {
+    name: 'FORM / 65', category: 'INTERACTIVE FRONTEND & PRODUCT DESIGN',
+    description: 'Build a keyboard. Explore every layer.',
+    detail: 'A responsive mechanical keyboard configurator with a scroll-driven assembly, live pricing, switch comparisons, and a saved cart. Choose case finishes, keycaps, and switches, then share your build with a URL.',
+    stack: ['React', 'TypeScript', 'Vite', 'CSS 3D', 'GitHub Actions'],
+    image: 'form65.png', alt: 'FORM / 65 interactive keyboard assembly with separated layers',
+    metric: '4-layer assembly', metricLabel: 'Scroll-driven interaction · reduced-motion support', repo: 'form65',
+    demo: 'https://saisumedh18.github.io/form65/', demoNote: 'Interactive product demo · no purchases or payments. Builds are saved in your browser.',
+    architecture: ['URL configuration', 'React state', 'CSS 3D assembly', 'Browser-persisted cart'],
+    engineering: 'Configuration URLs preserve the selected finish, keycaps, and switches. Cart edits and quantities persist locally, while native mobile scrolling and reduced-motion alternatives keep the experience accessible.',
+    method: 'Five responsive views and 27 combinations across three finishes, three keycap palettes, and three switch options. These describe implemented scope, not performance measurements. This demo has no checkout or backend.',
+  },
 ]
 type Project = typeof projects[number]
 type IconName = 'github' | 'linkedin' | 'mail' | 'phone' | 'download' | 'expand'
@@ -168,7 +180,7 @@ export default function App() {
       </div><div className="container hero-foot"><span>BUILDING WITH</span><p>Java <span>·</span> TypeScript <span>·</span> React <span>·</span> PostgreSQL</p><span>DESIGNED, BUILT & TESTED</span></div></section>
       <div className="container">
         <ArchitectureShowcase/>
-        <section id="projects" className="section projects-section"><SectionTitle label="SELECTED WORK" title="Three builds. Different challenges." intro="A financial backend, a collaborative workspace, and an AI analytics tool. Here’s what I built and how it works."/><div className="project-list">{projects.map((project, index) => <ProjectCard key={project.name} project={project} index={index} onPreview={setPreview}/>)}</div></section>
+        <section id="projects" className="section projects-section"><SectionTitle label="SELECTED WORK" title="Four builds. Different challenges." intro="From resilient backends and grounded AI to an interactive product experience. Here’s what I built and how it works."/><div className="project-list">{projects.map((project, index) => <ProjectCard key={project.name} project={project} index={index} onPreview={setPreview}/>)}</div></section>
         <section id="about" className="section about"><SectionTitle label="ABOUT" title="Software engineering, with a data science foundation."/><div className="about-copy"><p>I’m a computer science graduate student at NC State. My work spans Java services, React applications, asynchronous processing, and AI-assisted data analysis.</p><p>I like the parts of engineering that make a product dependable: clear authorization, recoverable jobs, useful tests, and measurements that explain where the time goes.</p><p>As a Graduate Teaching Assistant, I help students work through Python and SQL problems. Before graduate school, I built climate-data pipelines and predictive models at INCOIS.</p><div className="about-facts"><div><strong>Raleigh, NC</strong><span>Current location</span></div><div><strong>May 2027</strong><span>Expected graduation</span></div></div></div></section>
         <section id="experience" className="section"><SectionTitle label="EXPERIENCE" title="Teaching, building, and learning."/><div className="timeline">
           <article><div className="timeline-date"><FaRegCalendarAlt aria-hidden="true"/><span className="role-label">CURRENT ROLE</span>AUG 2026 — PRESENT<span>Raleigh, NC</span></div><div><h3>Graduate Teaching Assistant</h3><p className="organization">NC State University · Poole College of Management</p><div className="experience-stats"><div><strong>162</strong><span>students supported</span></div><div><strong>3</strong><span>course sections</span></div><div><strong>12–15 hrs</strong><span>weekly Python & SQL support</span></div></div><ul><li>Diagnose implementation errors and explain the Python and SQL concepts behind students’ solutions.</li><li>Review programming and analytics assignments, identify recurring errors, and provide consistent, structured technical feedback.</li></ul></div></article>

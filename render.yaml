@@ -10,7 +10,7 @@ services:
     name: sai-finsight-demo
     runtime: docker
     repo: https://github.com/SaiSumedh18/finsight
-    branch: upgrade/finsight-backend
+    branch: main
     dockerfilePath: ./Dockerfile.demo
     region: ohio
     plan: free
@@ -31,7 +31,7 @@ services:
     name: sai-insightchat-demo
     runtime: docker
     repo: https://github.com/SaiSumedh18/insightchat-ai
-    branch: upgrade/insightchat-grounding-streaming
+    branch: main
     dockerfilePath: ./Dockerfile.demo
     region: ohio
     plan: free
@@ -45,7 +45,7 @@ services:
     name: sai-taskflow-api
     runtime: docker
     repo: https://github.com/SaiSumedh18/taskflow
-    branch: upgrade/taskflow-spring
+    branch: main
     rootDir: spring-server
     dockerfilePath: ./Dockerfile
     region: ohio
@@ -70,7 +70,7 @@ services:
     name: sai-taskflow-demo
     runtime: static
     repo: https://github.com/SaiSumedh18/taskflow
-    branch: upgrade/taskflow-spring
+    branch: main
     rootDir: client
     buildCommand: npm ci && VITE_API_URL="$API_ORIGIN/api" npm run build
     staticPublishPath: ./dist

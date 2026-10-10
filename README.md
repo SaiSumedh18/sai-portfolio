@@ -34,4 +34,4 @@ npm run build     # static site in dist/
 
 ## Deployment
 
-Pushing to `main` runs `.github/workflows/pages.yml`, which lints, builds, and deploys the site. `render.yaml` defines the free Render services that host the three project demos. Database credentials live in the hosting dashboards, never in this repo.
+Pushing to `main` runs `.github/workflows/pages.yml`, which lints, builds, and deploys the site. `render.yaml` defines the free Render services that host the three project demos, all following their repositories’ `main` branches. Database credentials live in the hosting dashboards, never in this repo.

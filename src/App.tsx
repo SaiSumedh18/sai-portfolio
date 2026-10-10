@@ -1,3 +1,4 @@
+import ArchitectureShowcase from './ArchitectureShowcase'
 import { useEffect, useRef, useState } from 'react'
 import { FaGithub, FaLinkedin, FaJava, FaCode, FaLayerGroup, FaDatabase, FaCloud, FaShieldAlt, FaFlask, FaGraduationCap, FaMapMarkerAlt, FaRegCalendarAlt, FaEnvelope } from 'react-icons/fa'
 import { SiTypescript, SiJavascript, SiPython, SiReact, SiSpringboot, SiNodedotjs, SiPostgresql, SiRedis, SiDocker, SiKubernetes, SiGit, SiMysql, SiMongodb, SiSqlite, SiGithubactions } from 'react-icons/si'
@@ -166,6 +167,7 @@ export default function App() {
         </aside>
       </div><div className="container hero-foot"><span>BUILDING WITH</span><p>Java <span>·</span> TypeScript <span>·</span> React <span>·</span> PostgreSQL</p><span>DESIGNED, BUILT & TESTED</span></div></section>
       <div className="container">
+        <ArchitectureShowcase/>
         <section id="projects" className="section projects-section"><SectionTitle label="SELECTED WORK" title="Three builds. Different challenges." intro="A financial backend, a collaborative workspace, and an AI analytics tool. Here’s what I built and how it works."/><div className="project-list">{projects.map((project, index) => <ProjectCard key={project.name} project={project} index={index} onPreview={setPreview}/>)}</div></section>
         <section id="about" className="section about"><SectionTitle label="ABOUT" title="Software engineering, with a data science foundation."/><div className="about-copy"><p>I’m a computer science graduate student at NC State. My work spans Java services, React applications, asynchronous processing, and AI-assisted data analysis.</p><p>I like the parts of engineering that make a product dependable: clear authorization, recoverable jobs, useful tests, and measurements that explain where the time goes.</p><p>As a Graduate Teaching Assistant, I help students work through Python and SQL problems. Before graduate school, I built climate-data pipelines and predictive models at INCOIS.</p><div className="about-facts"><div><strong>Raleigh, NC</strong><span>Current location</span></div><div><strong>May 2027</strong><span>Expected graduation</span></div></div></div></section>
         <section id="experience" className="section"><SectionTitle label="EXPERIENCE" title="Teaching, building, and learning."/><div className="timeline">

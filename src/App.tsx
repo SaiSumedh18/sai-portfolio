@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { BorderBeam } from 'border-beam'
+import { MetalFx } from 'metal-fx'
 import { FaGithub, FaLinkedin, FaJava, FaEnvelope, FaFilePdf } from 'react-icons/fa'
 import { SiSpringboot, SiTypescript, SiReact, SiNodedotjs, SiPostgresql, SiRedis, SiDocker, SiGithubactions, SiPython, SiGit, SiExpress, SiJunit5, SiPandas, SiNginx } from 'react-icons/si'
 import type { IconType } from 'react-icons'
-import Hero from './Hero'
+import HeroSwitch from './ValleyHero'
 import Story from './Story'
 import Journey from './Journey'
 import Work from './Work'
@@ -46,6 +48,10 @@ const shortcuts = [
   { key: 'G', label: 'GitHub', hint: 'All the code, in public.', detail: '@SaiSumedh18', href: links.github, icon: FaGithub },
   { key: 'R', label: 'Resume', hint: 'One page, one click.', detail: 'PDF', href: resume, icon: FaFilePdf },
 ]
+
+function Glow({ children }: { children: ReactNode }) {
+  return <BorderBeam size="md" colorVariant="sunset" theme="light" strength={0.9} duration={3.2} className="contact-beam">{children}</BorderBeam>
+}
 
 function Stack() {
   const [picked, setPicked] = useState(tools[7])
@@ -103,14 +109,16 @@ function Contact() {
       <p className="contact-sub">Looking for software engineering roles from May 2027. Open to relocation. I reply fast.</p>
       <p className="contact-keys">psst, these work on your keyboard too: {shortcuts.map(item => <kbd key={item.key}>{item.key}</kbd>)}</p>
       <ul className="contact-grid">
-        {shortcuts.map(({ key, label, hint, detail, href, icon: Icon }) => <li key={key}>
-          <a href={href} {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
+        {shortcuts.map(({ key, label, hint, detail, href, icon: Icon }) => {
+          const card = <a href={href} {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
             <kbd>{key}</kbd>
             <span className="contact-label"><Icon aria-hidden="true"/>{label}</span>
             <span className="contact-hint">{hint}</span>
             <span className="contact-detail">{detail}</span>
           </a>
-        </li>)}
+          // Email is the main ask, so it gets a slow sunset glow around its border.
+          return <li key={key}>{key === 'E' ? <Glow>{card}</Glow> : card}</li>
+        })}
       </ul>
     </div>
   </section>
@@ -133,11 +141,11 @@ export default function App() {
     <a href="#main" className="skip-link">Skip to content</a>
     <header className="topbar">
       <a href="#top" className="avatar" aria-label="Sai Sumedh Kaveti, back to top">sk</a>
-      <p className="status"><span className="status-dot" aria-hidden="true"/>Open to 2027 SWE roles</p>
+      <BorderBeam size="sm" colorVariant="sunset" theme="dark" strength={0.8} className="status-beam"><p className="status"><span className="status-dot" aria-hidden="true"/>Open to 2027 SWE roles</p></BorderBeam>
     </header>
 
     <main id="main">
-      <Hero/>
+      <HeroSwitch/>
       <Story/>
       <div className="tear" aria-hidden="true"/>
       <Journey/>
@@ -152,7 +160,7 @@ export default function App() {
 
     <nav className="dock" aria-label="Sections">
       {['Journey', 'Work', 'Contact'].map(item => <a key={item} href={`#${item.toLowerCase()}`} aria-current={active === item.toLowerCase() ? 'location' : undefined}>{item}</a>)}
-      <a className="dock-resume" href={resume} target="_blank" rel="noopener noreferrer">Resume ↗</a>
+      <MetalFx variant="button" preset="gold" theme="dark" className="dock-metal"><a className="dock-resume" href={resume} target="_blank" rel="noopener noreferrer">Resume ↗</a></MetalFx>
     </nav>
   </>
 }

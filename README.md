@@ -12,6 +12,7 @@ Built with React, TypeScript, and Vite. It's a static site with no backend and n
 | **TaskFlow** | Java 21 / Spring Boot API with membership-based authorization and row locking | [Live](https://sai-taskflow-demo.onrender.com) | [GitHub](https://github.com/SaiSumedh18/taskflow) |
 | **InsightChat AI** | Grounded AI analytics: numbers computed in code, streamed answers, bounded context | [Live](https://sai-insightchat-demo.onrender.com) | [GitHub](https://github.com/SaiSumedh18/insightchat-ai) |
 | **FORM / 65** | Scroll-driven keyboard configurator with shareable builds | [Live](https://saisumedh18.github.io/form65/) | [GitHub](https://github.com/SaiSumedh18/form65) |
+| **Create Daily** | Creative coding: a procedurally folded origami koi in Three.js that follows your cursor | [Live](https://saisumedh18.github.io/create-daily/) | [GitHub](https://github.com/SaiSumedh18/create-daily) |
 
 Demos run on free hosting and can take about a minute to wake up.
 

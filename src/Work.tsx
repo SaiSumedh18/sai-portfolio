@@ -53,6 +53,18 @@ const projects = [
     notes: 'Every build lives in the URL, so sharing a link shares the exact keyboard. The cart persists locally, and reduced-motion settings get a calm, static assembly.',
     method: 'Counts describe what’s built, not performance.',
   },
+  {
+    name: 'Create Daily', tag: 'The Paper Koi', metric: '0', metricLabel: '3D models downloaded',
+    colors: ['#e5392b', '#a3170f'],
+    summary: 'A procedurally folded origami koi that swims across a red page, follows your cursor, and swims over to eat the food you drop.',
+    stack: ['TypeScript', 'Three.js', 'Vite', 'GitHub Actions'],
+    image: 'create-daily.jpg', alt: 'Create Daily: a faceted origami koi swimming across giant white CREATE DAILY type on a red page',
+    proof: [['0', 'downloaded models or textures; every fold is generated in code'], ['~720', 'lines of TypeScript and Three.js']],
+    repo: 'create-daily', demo: 'https://saisumedh18.github.io/create-daily/',
+    demoNote: 'Move to lead the koi, click to feed it. Works with touch.',
+    notes: 'The body is built from rings with a faceted diamond cross-section, coloured face by face like folded paper. A travelling sine wave bends it as it swims, its tail beats faster at speed, and it steers toward your pointer or the nearest pellet. Reduced-motion settings get a slow, still drift.',
+    method: 'A creative coding study, separate from the engineering projects above.',
+  },
 ]
 type Project = typeof projects[number]
 
@@ -69,7 +81,7 @@ export default function Work() {
       <header className="section-intro">
         <p className="kicker">Selected work</p>
         <h2 id="work-title">Things I built, and the numbers they moved.</h2>
-        <p>Four projects, all live and open source. Pick a card from the box.</p>
+        <p>Five projects, all live and open source. Pick a card from the box.</p>
       </header>
 
       <div className="box">

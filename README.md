@@ -2,7 +2,7 @@
 
 Source for **https://saisumedhkaveti.work/**, my software engineering portfolio.
 
-Built with React, TypeScript, and Vite. It's a static site with no backend and no tracking; the Bricolage Grotesque font is self-hosted from npm, and the hero illustration is hand-drawn SVG. It works at phone widths and with a keyboard.
+Built with React, TypeScript, and Vite. It's a static site with no backend and no tracking; the Bricolage Grotesque font is self-hosted from npm, the hero is a 3D valley built in code with Three.js, and the Resume button and highlight glows use the MIT-licensed `metal-fx` and `border-beam` effects from libraries.dev. It works at phone widths and with a keyboard.
 
 ## Projects featured
 
@@ -12,6 +12,7 @@ Built with React, TypeScript, and Vite. It's a static site with no backend and n
 | **TaskFlow** | Java 21 / Spring Boot API with membership-based authorization and row locking | [Live](https://sai-taskflow-demo.onrender.com) | [GitHub](https://github.com/SaiSumedh18/taskflow) |
 | **InsightChat AI** | Grounded AI analytics: numbers computed in code, streamed answers, bounded context | [Live](https://sai-insightchat-demo.onrender.com) | [GitHub](https://github.com/SaiSumedh18/insightchat-ai) |
 | **FORM / 65** | Scroll-driven keyboard configurator with shareable builds | [Live](https://saisumedh18.github.io/form65/) | [GitHub](https://github.com/SaiSumedh18/form65) |
+| **Create Daily** | Creative coding: a procedurally folded origami koi in Three.js that follows your cursor | [Live](https://saisumedh18.github.io/create-daily/) | [GitHub](https://github.com/SaiSumedh18/create-daily) |
 
 Demos run on free hosting and can take about a minute to wake up.
 
@@ -29,7 +30,9 @@ npm run build     # static site in dist/
 ## Editing
 
 - `src/App.tsx`: page layout, stack, how-I-work steps, contact and keyboard shortcuts
-- `src/Hero.tsx`: the illustrated dusk scene with pins
+- `src/ValleyHero.tsx`: the hero; shows the 3D valley, or the illustrated one if WebGL isn't available
+- `src/three/Valley.tsx`: the 3D dusk valley (Three.js / React Three Fiber, all built in code)
+- `src/Hero.tsx`: the illustrated dusk scene, used as the fallback
 - `src/Story.tsx`: the scroll-lit “How I got here” story
 - `src/Journey.tsx`: the journey map stops
 - `src/Work.tsx`: project cards and case-study popups

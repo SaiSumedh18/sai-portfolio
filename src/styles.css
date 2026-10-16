@@ -147,11 +147,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cards { position: absolute; inset: 0 6% 22%; display: flex; justify-content: center; align-items: flex-end; }
 .cards li { flex: 0 0 auto; margin-inline: -1.5%; z-index: calc(10 - var(--i)); }
 .card {
-  position: relative; display: grid; align-content: space-between; text-align: left; width: clamp(128px, 20vw, 190px); aspect-ratio: 3 / 4.3; padding: 16px; border: 0; border-radius: 14px;
+  position: relative; display: grid; align-content: space-between; text-align: left; width: clamp(104px, 15vw, 148px); aspect-ratio: 3 / 4.3; padding: 16px; border: 0; border-radius: 14px;
   background: linear-gradient(160deg, var(--c1), var(--c2)); color: #fff; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transform: translateY(calc(var(--i) * 6px)) rotate(calc((var(--i) - 1.5) * 6deg)); transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s;
+  transform: translateY(calc(var(--i) * 5px)) rotate(calc((var(--i) - 2) * 5deg)); transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s;
 }
-.card:hover, .card:focus-visible { transform: translateY(-34%) rotate(calc((var(--i) - 1.5) * 3deg)) scale(1.04); box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5); z-index: 20; }
+.card:hover, .card:focus-visible { transform: translateY(-34%) rotate(calc((var(--i) - 2) * 2.5deg)) scale(1.04); box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5); z-index: 20; }
 .cards li:has(.card:hover), .cards li:has(.card:focus-visible) { z-index: 20; }
 .card-tag { font-size: clamp(0.8125rem, 1.4vw, 1rem); font-weight: 700; line-height: 1.15; max-width: 9ch; }
 .card-metric { font-size: clamp(2rem, 4.6vw, 3.25rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; margin-top: auto; }
@@ -166,7 +166,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 560px) {
   .cards { inset-inline: 2%; }
   .cards li { margin-inline: -2.5%; }
-  .card { width: 27vw; padding: 10px; border-radius: 10px; }
+  .card { width: 22vw; padding: 8px; border-radius: 10px; }
   .card-tag { font-size: 0.6875rem; }
   .card-metric { font-size: 1.625rem; }
   .card-metric-label, .card-name { font-size: 0.6875rem; }
@@ -239,9 +239,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 kbd { display: inline-grid; place-items: center; min-width: 28px; height: 28px; margin-inline: 3px; padding-inline: 6px; border-radius: 7px; background: var(--cream); color: var(--ink); font-family: var(--font); font-weight: 800; font-size: 0.875rem; box-shadow: 0 3px 0 #bfb4a2; }
 .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; text-align: left; }
 .contact-grid a { position: relative; display: grid; gap: 6px; height: 100%; padding: 20px; border-radius: 4px 4px 20px 4px; background: var(--cream); color: var(--ink); text-decoration: none; box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3); transition: transform .25s cubic-bezier(.3, 1.6, .5, 1); }
-.contact-grid li:nth-child(odd) a { transform: rotate(-1.2deg); }
-.contact-grid li:nth-child(even) a { transform: rotate(1deg); }
-.contact-grid a:hover, .contact-grid a:focus-visible { transform: rotate(0) translateY(-6px); }
+.contact-grid li:nth-child(odd) { transform: rotate(-1.2deg); }
+.contact-grid li:nth-child(even) { transform: rotate(1deg); }
+.contact-grid a:hover, .contact-grid a:focus-visible { transform: translateY(-6px); }
 .contact-grid kbd { position: absolute; top: 16px; right: 12px; }
 .contact-label { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.25rem; }
 .contact-hint { color: #57514a; font-size: 0.9375rem; }
@@ -256,3 +256,27 @@ kbd { display: inline-grid; place-items: center; min-width: 28px; height: 28px; 
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .scribble::after { transform: rotate(-1.5deg) scaleX(1); }
 }
+
+/* 3D valley hero */
+.hero-3d { background: #6b6aa0; }
+.valley { position: absolute; inset: 0; }
+.valley canvas { touch-action: pan-y; }
+.hero-3d .hero-copy { pointer-events: none; }
+.hero-3d .hero-copy a { pointer-events: auto; }
+.pin3d { display: grid; justify-items: center; gap: 6px; text-decoration: none; color: var(--cream); font-family: var(--font); white-space: nowrap; transform: translateY(-50%); }
+.pin3d-label { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: rgba(28, 27, 26, 0.8); border: 1px solid rgba(246, 239, 228, 0.22); backdrop-filter: blur(6px); font-weight: 700; font-size: 0.875rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); transition: background-color .2s, transform .2s cubic-bezier(.3, 1.6, .5, 1); }
+.pin3d-label em { font-style: normal; font-weight: 500; color: var(--muted); }
+.pin3d-me { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--yellow); color: var(--ink); font-size: 0.6875rem; font-weight: 800; }
+.pin3d-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 4px rgba(255, 216, 77, 0.25), 0 0 16px rgba(255, 216, 77, 0.8); }
+.pin3d:hover .pin3d-label, .pin3d:focus-visible .pin3d-label { background: var(--yellow); color: var(--ink); transform: scale(1.06); }
+.pin3d:hover .pin3d-label em { color: rgba(28, 27, 26, 0.7); }
+@media (max-width: 700px) { .pin3d-label { font-size: 0.75rem; padding: 5px 10px; } }
+.hero-3d::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(70% 70% at 12% 40%, rgba(20, 22, 48, 0.55), rgba(20, 22, 48, 0) 70%); }
+
+/* libraries.dev effects */
+.status-beam { pointer-events: auto; border-radius: 999px; }
+.contact-beam { height: 100%; }
+/* metal-fx hides its wrapper until its WebGL shader draws a first frame. The Resume link must
+   never disappear, so keep it visible; the metal rim simply joins in once it's ready. */
+.metal-fx-root.dock-metal { border-radius: 999px; background: var(--yellow); opacity: 1 !important; visibility: visible !important; }
+.metal-fx-root.dock-metal .dock-resume { color: var(--ink); }

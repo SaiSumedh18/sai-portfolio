@@ -14,3 +14,6 @@ dist/
 /*-redesigned.jpg
 /hero-blue.jpg
 /hero-lavender.jpg
+
+# Local browser-test artifacts
+.playwright-mcp/

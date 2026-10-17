@@ -54,6 +54,18 @@ const projects = [
     method: 'Counts describe what’s built, not performance.',
   },
   {
+    name: 'Inkwell Slate', tag: 'The Honest Checkout', metric: '0', metricLabel: 'prices trusted from the browser',
+    colors: ['#2340c7', '#14287f'],
+    summary: 'An Apple-style store for a made-up e-ink notebook, from a scroll-written hero to a checkout backed by a real orders API.',
+    stack: ['Next.js 16', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Upstash Redis', 'Vercel'],
+    image: 'inkwell.jpg', alt: 'Inkwell Slate: a handwritten note being written by a stylus on a ruled e-ink page',
+    proof: [['0', 'client-sent prices accepted; every total is recalculated on the server'], ['3', 'API routes: place an order, look it up, and a password-protected admin list']],
+    repo: 'inkwell-slate', demo: 'https://inkwell-slate.vercel.app',
+    demoNote: 'A demo store: orders are saved so you can look them up, but nothing is charged or shipped.',
+    notes: 'Scrolling the hero writes a note by hand, then turns it into typed text. A configurator previews finish, pen, storage, cover and engraving live, and the bag survives reloads. Checkout posts to a Next.js route handler that validates every field, reprices from the catalogue and stores the order in Redis; lookups need the matching email, and the admin list uses a timing-safe password check.',
+    method: 'Counts describe what’s built, not performance.',
+  },
+  {
     name: 'Create Daily', tag: 'The Paper Koi', metric: '0', metricLabel: '3D models downloaded',
     colors: ['#e5392b', '#a3170f'],
     summary: 'Two procedurally folded origami koi on a red page. The lead unfolds from a flat sheet, follows your cursor, and races its companion to the food you drop.',
@@ -81,7 +93,7 @@ export default function Work() {
       <header className="section-intro">
         <p className="kicker">Selected work</p>
         <h2 id="work-title">Things I built, and the numbers they moved.</h2>
-        <p>Five projects, all live and open source. Pick a card from the box.</p>
+        <p>Six projects, all live and open source. Pick a card from the box.</p>
       </header>
 
       <div className="box">

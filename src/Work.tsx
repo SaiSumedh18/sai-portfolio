@@ -56,13 +56,13 @@ const projects = [
   {
     name: 'Create Daily', tag: 'The Paper Koi', metric: '0', metricLabel: '3D models downloaded',
     colors: ['#e5392b', '#a3170f'],
-    summary: 'A procedurally folded origami koi that swims across a red page, follows your cursor, and swims over to eat the food you drop.',
+    summary: 'Two procedurally folded origami koi on a red page. The lead unfolds from a flat sheet, follows your cursor, and races its companion to the food you drop.',
     stack: ['TypeScript', 'Three.js', 'Vite', 'GitHub Actions'],
-    image: 'create-daily.jpg', alt: 'Create Daily: a faceted origami koi swimming across giant white CREATE DAILY type on a red page',
-    proof: [['0', 'downloaded models or textures; every fold is generated in code'], ['~720', 'lines of TypeScript and Three.js']],
+    image: 'create-daily.jpg', alt: 'Create Daily: two faceted origami koi, one kohaku and one showa, swimming across giant white CREATE DAILY type on a red page',
+    proof: [['0', 'downloaded models or textures; every fold is generated in code'], ['~930', 'lines of TypeScript and Three.js']],
     repo: 'create-daily', demo: 'https://saisumedh18.github.io/create-daily/',
-    demoNote: 'Move to lead the koi, click to feed it. Works with touch.',
-    notes: 'The body is built from rings with a faceted diamond cross-section, coloured face by face like folded paper. A travelling sine wave bends it as it swims, its tail beats faster at speed, and it steers toward your pointer or the nearest pellet. Reduced-motion settings get a slow, still drift.',
+    demoNote: 'Move to lead the koi, click to feed them. Works with touch.',
+    notes: 'Each body is built from rings with a faceted diamond cross-section, coloured face by face like folded paper. The page opens with the koi folding up out of a flat sheet. A travelling sine wave bends each fish as it swims, its tail beats faster at speed, and a smaller showa trails the lead, keeps its distance and competes for food. Phones get a lighter render, and reduced-motion settings get a slow, still drift.',
     method: 'A creative coding study, separate from the engineering projects above.',
   },
 ]

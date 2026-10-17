@@ -86,10 +86,10 @@ function frameAt(progress: number) {
 const StaticMap = memo(function StaticMap() {
   return <>
     <defs>
-      <radialGradient id="city-edge"><stop offset="0.6" stopColor="#1b1d27" stopOpacity="0"/><stop offset="1" stopColor="#1b1d27"/></radialGradient>
-      <linearGradient id="sea" x1="0" x2="1"><stop offset="0" stopColor="#1b1d27"/><stop offset="0.25" stopColor="#1c2b47"/><stop offset="0.75" stopColor="#1c2b47"/><stop offset="1" stopColor="#1b1d27"/></linearGradient>
+      <radialGradient id="city-edge"><stop offset="0.6" style={{ stopColor: 'var(--map-bg)', stopOpacity: 0 }}/><stop offset="1" style={{ stopColor: 'var(--map-bg)' }}/></radialGradient>
+      <linearGradient id="sea" x1="0" x2="1">{([[0, '--map-bg'], [0.25, '--map-sea'], [0.75, '--map-sea'], [1, '--map-bg']] as const).map(([offset, color]) => <stop key={offset} offset={offset} style={{ stopColor: `var(${color})` }}/>)}</linearGradient>
     </defs>
-    <rect x="-2000" y="-2000" width={MAP.w + 4000} height={MAP.h + 4000} fill="#1b1d27"/>
+    <rect x="-2000" y="-2000" width={MAP.w + 4000} height={MAP.h + 4000} style={{ fill: 'var(--map-bg)' }}/>
     {cities.map((c, i) => <g key={i}>
       <path d={c.d} transform={c.transform} className="map-street"/>
       {blocks.filter((_, b) => (b < 80) === (i === 0)).map((b, k) => <rect key={k} x={b.x} y={b.y} width={b.w} height={b.h} rx="2" className="map-block"/>)}

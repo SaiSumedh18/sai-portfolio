@@ -6,6 +6,7 @@ import { SiSpringboot, SiTypescript, SiReact, SiNodedotjs, SiPostgresql, SiRedis
 import type { IconType } from 'react-icons'
 import HeroSwitch from './ValleyHero'
 import Story from './Story'
+import Mark from './Mark'
 import Journey from './Journey'
 import Work from './Work'
 
@@ -140,7 +141,7 @@ export default function App() {
   return <>
     <a href="#main" className="skip-link">Skip to content</a>
     <header className="topbar">
-      <a href="#top" className="avatar" aria-label="Sai Sumedh Kaveti, back to top">sk</a>
+      <a href="#top" className="avatar" aria-label="Sai Sumedh Kaveti, back to top"><Mark/></a>
       <BorderBeam size="sm" colorVariant="sunset" theme="dark" strength={0.8} className="status-beam"><p className="status"><span className="status-dot" aria-hidden="true"/>Open to 2027 SWE roles</p></BorderBeam>
     </header>
 

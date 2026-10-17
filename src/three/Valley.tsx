@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Html } from '@react-three/drei'
+import Mark from '../Mark'
 import {
   AdditiveBlending, BufferAttribute, BufferGeometry, CanvasTexture, CatmullRomCurve3, Color, DoubleSide,
   ExtrudeGeometry, Float32BufferAttribute, Object3D, PlaneGeometry, SRGBColorSpace, Shape, Vector3,
@@ -30,11 +31,14 @@ const glowTexture = () => canvasTexture(128, 128, ctx => {
   ctx.fillStyle = g; ctx.fillRect(0, 0, 128, 128)
 })
 
-const skyTexture = () => canvasTexture(4, 512, ctx => {
+const skyTexture = (night = false) => canvasTexture(4, 512, ctx => {
   const g = ctx.createLinearGradient(0, 0, 0, 512)
-  g.addColorStop(0, '#2b3b72'); g.addColorStop(0.3, '#4b5b96'); g.addColorStop(0.5, '#9479ab'); g.addColorStop(0.66, '#e09e8c'); g.addColorStop(0.8, '#f7c693'); g.addColorStop(1, '#fde3b4')
+  if (night) { g.addColorStop(0, '#070b1c'); g.addColorStop(0.45, '#111a3a'); g.addColorStop(0.75, '#26315e'); g.addColorStop(1, '#3d3f72') }
+  else { g.addColorStop(0, '#2b3b72'); g.addColorStop(0.3, '#4b5b96'); g.addColorStop(0.5, '#9479ab'); g.addColorStop(0.66, '#e09e8c'); g.addColorStop(0.8, '#f7c693'); g.addColorStop(1, '#fde3b4') }
   ctx.fillStyle = g; ctx.fillRect(0, 0, 4, 512)
 })
+
+export type PlaceId = 'incois' | 'vnr' | 'ncstate' | 'me'
 
 // A grid of windows, some lit, for buildings.
 const windowTexture = (columns: number, rows: number, seed: number) => canvasTexture(columns * 16, rows * 20, ctx => {
@@ -314,14 +318,25 @@ function Fireflies({ reduceMotion }: { reduceMotion: boolean }) {
 
 /* ---------- pins, camera and scene ---------- */
 
-const pins = [
-  { label: 'VNR', year: '2025', position: [landmarks.college.x, 2.95, landmarks.college.z] as const },
-  { label: 'NC State', year: 'Now', position: [landmarks.tower.x, 7.4, landmarks.tower.z] as const },
-  { label: 'INCOIS', year: '2025', position: [landmarks.lighthouse.x, 5.5, landmarks.lighthouse.z] as const },
+const pins: { id: PlaceId; label: string; year: string; position: readonly [number, number, number] }[] = [
+  { id: 'vnr', label: 'VNR', year: '2025', position: [landmarks.college.x, 2.95, landmarks.college.z] },
+  { id: 'ncstate', label: 'NC State', year: 'Now', position: [landmarks.tower.x, 7.4, landmarks.tower.z] },
+  { id: 'incois', label: 'INCOIS', year: '2025', position: [landmarks.lighthouse.x, 5.5, landmarks.lighthouse.z] },
 ]
+const mePoint = road.getPointAt(0.45)
 
-function Pins() {
-  const me = road.getPointAt(0.45)
+// Where the camera goes for each place: a little in front of it, aimed so the landmark sits
+// to the right of the story card (or above it on phones). `top` is the landmark's height.
+// `side` sets which side the camera comes from, so nothing tall stands in the way.
+const places: Record<PlaceId, { at: Vector3; top: number; side: number }> = {
+  incois: { at: landmarks.lighthouse, top: 4.6, side: 3.6 },
+  vnr: { at: landmarks.college, top: 2.2, side: -2.2 },
+  ncstate: { at: landmarks.tower, top: 6.6, side: -2.2 },
+  me: { at: new Vector3(mePoint.x, height(mePoint.x, mePoint.z), mePoint.z), top: 1.2, side: -2.2 },
+}
+
+function Pins({ active, onSelect, showHint }: { active: PlaceId | null; onSelect: (id: PlaceId) => void; showHint: boolean }) {
+  const me = mePoint
   // Mount the HTML labels one frame after the scene, otherwise the first one can be
   // torn down mid-render and never appear.
   const [ready, setReady] = useState(false)
@@ -329,32 +344,43 @@ function Pins() {
     const id = requestAnimationFrame(() => setReady(true))
     return () => cancelAnimationFrame(id)
   }, [])
-  if (!ready) return null
+  if (!ready || active) return null
   return <>
-    {pins.map(pin => <Html key={pin.label} position={[...pin.position]} center zIndexRange={[5, 0]}>
-      <a className="pin3d" href="#journey"><span className="pin3d-label">{pin.label}<em>{pin.year}</em></span><span className="pin3d-dot" aria-hidden="true"/></a>
+    {pins.map(pin => <Html key={pin.id} position={[...pin.position]} center zIndexRange={[5, 0]}>
+      <button type="button" className="pin3d" onClick={() => onSelect(pin.id)} aria-label={`${pin.label}, ${pin.year}: open its story`}>
+        {showHint && pin.id === 'ncstate' && <span className="pin3d-hint" aria-hidden="true">click a place <svg viewBox="0 0 40 16"><path d="M2 10 C 14 2 26 2 36 8 M30 3 L 37 8 L 30 13"/></svg></span>}
+        <span className="pin3d-label">{pin.label}<em>{pin.year}</em></span><span className="pin3d-dot" aria-hidden="true"/>
+      </button>
     </Html>)}
     <Html position={[me.x, height(me.x, me.z) + 1.0, me.z]} center zIndexRange={[5, 0]}>
-      <a className="pin3d" href="#story"><span className="pin3d-label"><b className="pin3d-me">sk</b>That’s me</span><span className="pin3d-dot" aria-hidden="true"/></a>
+      <button type="button" className="pin3d" onClick={() => onSelect('me')} aria-label="That’s me: open my story"><span className="pin3d-label"><Mark size={22}/>That’s me</span><span className="pin3d-dot" aria-hidden="true"/></button>
     </Html>
   </>
 }
 
-function CameraRig({ reduceMotion }: { reduceMotion: boolean }) {
+function CameraRig({ reduceMotion, active }: { reduceMotion: boolean; active: PlaceId | null }) {
   const { size } = useThree()
   const portrait = size.width / size.height < 0.8
   const target = useMemo(() => new Vector3(), [])
   useFrame(({ camera, pointer }, delta) => {
     const scroll = Math.min(1, window.scrollY / window.innerHeight)
-    // Home view: wide screens look past the headline at the landmarks on the right;
-    // phones step back and centre on the tower.
-    const base = portrait ? new Vector3(2.6, 4.2, 31) : new Vector3(-0.6, 2.7, 14.5)
-    // On phones, aim above the landmarks so they sit in the lower half, under the headline.
-    const aim = portrait ? new Vector3(2.6, 7.4, -4) : new Vector3(1.4, 2.6, -4)
-    // Scrolling glides the camera down the road toward the belltower.
-    base.lerp(new Vector3(1.6, 2.2, 8), reduceMotion ? 0 : scroll * 0.55)
-    if (!reduceMotion) { base.x += pointer.x * 0.7; base.y += pointer.y * 0.35 }
-    const ease = 1 - Math.pow(0.03, delta)
+    let base: Vector3, aim: Vector3
+    if (active) {
+      // Fly to the chosen place: close in front of it, with the story card's side left clear.
+      const { at, top, side } = places[active]
+      base = portrait ? at.clone().add(new Vector3(0, top * 0.6 + 3, 12 + top * 1.6)) : at.clone().add(new Vector3(side, top * 0.5 + 1.8, 7.5 + top * 1.25))
+      aim = portrait ? at.clone().add(new Vector3(0, top * 0.5 - 2.6, 0)) : at.clone().add(new Vector3(-2.6 - top * 0.35, top * 0.5, 0))
+    } else {
+      // Home view: wide screens look past the headline at the landmarks on the right;
+      // phones step back and centre on the tower.
+      base = portrait ? new Vector3(2.6, 4.2, 31) : new Vector3(-0.6, 2.7, 14.5)
+      // On phones, aim above the landmarks so they sit in the lower half, under the headline.
+      aim = portrait ? new Vector3(2.6, 8.3, -4) : new Vector3(1.4, 2.6, -4)
+      // Scrolling glides the camera down the road toward the belltower.
+      base.lerp(new Vector3(1.6, 2.2, 8), reduceMotion ? 0 : scroll * 0.55)
+    }
+    if (!reduceMotion) { base.x += pointer.x * (active ? 0.25 : 0.7); base.y += pointer.y * (active ? 0.12 : 0.35) }
+    const ease = 1 - Math.pow(active ? 0.12 : 0.03, delta)
     camera.position.lerp(base, reduceMotion ? 1 : ease)
     target.lerp(aim, reduceMotion ? 1 : ease)
     camera.lookAt(target)
@@ -362,16 +388,20 @@ function CameraRig({ reduceMotion }: { reduceMotion: boolean }) {
   return null
 }
 
-function Scene({ reduceMotion }: { reduceMotion: boolean }) {
-  const sky = useMemo(() => skyTexture(), [])
+type SceneProps = { reduceMotion: boolean; night: boolean; active: PlaceId | null; onSelect: (id: PlaceId) => void; showHint: boolean }
+
+function Scene({ reduceMotion, night, active, onSelect, showHint }: SceneProps) {
+  const dusk = useMemo(() => skyTexture(), [])
+  const dark = useMemo(() => skyTexture(true), [])
+  // Dusk is warm and low; night swaps the sunset for cool moonlight so the windows glow.
   return <>
-    <primitive attach="background" object={sky}/>
-    <fog attach="fog" args={['#b896aa', 22, 80]}/>
-    <ambientLight intensity={0.45} color="#ffe6d6"/>
-    <hemisphereLight args={['#c2b8ff', '#4a4070', 1.5]}/>
-    <directionalLight position={[14, 4, -30]} intensity={1.6} color="#ffa979"/>
-    <directionalLight position={[10, 7, 9]} intensity={1.5} color="#ffc49c"/>
-    <directionalLight position={[-6, 12, 10]} intensity={0.9} color="#c3ceff" castShadow
+    <primitive attach="background" object={night ? dark : dusk}/>
+    <fog attach="fog" args={night ? ['#1b2246', 18, 72] : ['#b896aa', 22, 80]}/>
+    <ambientLight intensity={night ? 0.22 : 0.45} color={night ? '#9fb0ff' : '#ffe6d6'}/>
+    <hemisphereLight args={night ? ['#5d6bb0', '#141830', 0.9] : ['#c2b8ff', '#4a4070', 1.5]}/>
+    <directionalLight position={[14, 4, -30]} intensity={night ? 0 : 1.6} color="#ffa979"/>
+    <directionalLight position={[10, 7, 9]} intensity={night ? 0.25 : 1.5} color={night ? '#8ea2ff' : '#ffc49c'}/>
+    <directionalLight position={[-6, 12, 10]} intensity={night ? 1.25 : 0.9} color="#c3ceff" castShadow
       shadow-mapSize={[2048, 2048]} shadow-camera-left={-14} shadow-camera-right={14} shadow-camera-top={14} shadow-camera-bottom={-14} shadow-bias={-0.0008}/>
     <Sky/>
     <Terrain/>
@@ -383,15 +413,15 @@ function Scene({ reduceMotion }: { reduceMotion: boolean }) {
     <Belltower/>
     <Lighthouse reduceMotion={reduceMotion}/>
     <Fireflies reduceMotion={reduceMotion}/>
-    <Pins/>
-    <CameraRig reduceMotion={reduceMotion}/>
+    <Pins active={active} onSelect={onSelect} showHint={showHint}/>
+    <CameraRig reduceMotion={reduceMotion} active={active}/>
   </>
 }
 
-export default function Valley({ reduceMotion, paused, eventSource }: { reduceMotion: boolean; paused: boolean; eventSource: React.RefObject<HTMLElement | null> }) {
+export default function Valley({ paused, eventSource, ...scene }: SceneProps & { paused: boolean; eventSource: React.RefObject<HTMLElement | null> }) {
   // Pointer parallax listens on the whole hero, so the headline doesn't block it.
   return <Canvas shadows="percentage" dpr={[1, 1.75]} frameloop={paused ? 'never' : 'always'} camera={{ position: [-0.6, 2.7, 14.5], fov: 40, near: 0.1, far: 200 }}
     gl={{ antialias: true, powerPreference: 'high-performance', toneMappingExposure: 1.2 }} eventSource={eventSource as React.RefObject<HTMLElement>} eventPrefix="client">
-    <Scene reduceMotion={reduceMotion}/>
+    <Scene {...scene}/>
   </Canvas>
 }

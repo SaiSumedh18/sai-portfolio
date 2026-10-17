@@ -13,6 +13,8 @@ Built with React, TypeScript, and Vite. It's a static site with no backend and n
 | **InsightChat AI** | Grounded AI analytics: numbers computed in code, streamed answers, bounded context | [Live](https://sai-insightchat-demo.onrender.com) | [GitHub](https://github.com/SaiSumedh18/insightchat-ai) |
 | **FORM / 65** | Scroll-driven keyboard configurator with shareable builds | [Live](https://saisumedh18.github.io/form65/) | [GitHub](https://github.com/SaiSumedh18/form65) |
 | **Create Daily** | Creative coding: a procedurally folded origami koi in Three.js that follows your cursor | [Live](https://saisumedh18.github.io/create-daily/) | [GitHub](https://github.com/SaiSumedh18/create-daily) |
+| **Beneath Europa** | Scroll-driven WebGL story: procedural GLSL planets, GPU particles, bloom, GSAP ScrollTrigger + Lenis | [Live](https://saisumedh18.github.io/beneath-europa/) | [GitHub](https://github.com/SaiSumedh18/beneath-europa) |
+| **DRIFT-1** | A playable liquid-chrome hero driven by live Web Audio, plus a serverless Redis waitlist API with tests | [Live](https://saisumedh18.github.io/drift-1/) | [GitHub](https://github.com/SaiSumedh18/drift-1) |
 
 Demos run on free hosting and can take about a minute to wake up.
 

@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { BorderBeam } from 'border-beam'
 import { MetalFx } from 'metal-fx'
-import { FaGithub, FaLinkedin, FaJava, FaEnvelope, FaFilePdf } from 'react-icons/fa'
+import { FaJava } from 'react-icons/fa'
 import { SiSpringboot, SiTypescript, SiReact, SiNodedotjs, SiPostgresql, SiRedis, SiDocker, SiGithubactions, SiPython, SiGit, SiExpress, SiJunit5, SiPandas, SiNginx } from 'react-icons/si'
 import type { IconType } from 'react-icons'
 import HeroSwitch from './ValleyHero'
@@ -9,6 +9,8 @@ import Story from './Story'
 import Mark from './Mark'
 import Journey from './Journey'
 import Work from './Work'
+import AppIcon, { type App as AppName } from './AppIcons'
+import { useTheme } from './theme'
 
 const resume = `${import.meta.env.BASE_URL}Sai-Sumedh-Kaveti-Resume.pdf`
 const links = {
@@ -23,7 +25,7 @@ const tools: { name: string; icon: IconType; color: string; use: string }[] = [
   { name: 'TypeScript', icon: SiTypescript, color: '#5a9be6', use: 'Front to back in FinSight and InsightChat.' },
   { name: 'React', icon: SiReact, color: '#61dafb', use: 'Every interface here, from dashboards to a 3D keyboard.' },
   { name: 'Node.js', icon: SiNodedotjs, color: '#7cc35a', use: 'FinSight’s API and its background workers.' },
-  { name: 'Express', icon: SiExpress, color: '#f5efe4', use: 'REST APIs with JWT auth and per-user data isolation.' },
+  { name: 'Express', icon: SiExpress, color: 'var(--text)', use: 'REST APIs with JWT auth and per-user data isolation.' },
   { name: 'PostgreSQL', icon: SiPostgresql, color: '#7aa6d9', use: 'Analytics queries, triggers, and row-level locks.' },
   { name: 'Redis', icon: SiRedis, color: '#e5584b', use: 'The cache that made FinSight’s dashboard 83% faster.' },
   { name: 'Docker', icon: SiDocker, color: '#4aa3e8', use: 'Every project ships in containers.' },
@@ -43,11 +45,11 @@ const steps = [
   ['Measure again', '5,236 requests/sec, p95 down to 3.1 ms.'],
 ]
 
-const shortcuts = [
-  { key: 'E', label: 'Email', hint: 'Roles, projects, or just hi.', detail: 'saisumedhkaveti@gmail.com', href: links.email, icon: FaEnvelope },
-  { key: 'L', label: 'LinkedIn', hint: 'The professional version.', detail: 'in/saisumedhkaveti', href: links.linkedin, icon: FaLinkedin },
-  { key: 'G', label: 'GitHub', hint: 'All the code, in public.', detail: '@SaiSumedh18', href: links.github, icon: FaGithub },
-  { key: 'R', label: 'Resume', hint: 'One page, one click.', detail: 'PDF', href: resume, icon: FaFilePdf },
+const shortcuts: { key: string; label: string; hint: string; detail: string; href: string; app: AppName }[] = [
+  { key: 'E', label: 'Email', hint: 'Roles, projects, or just hi.', detail: 'saisumedhkaveti@gmail.com', href: links.email, app: 'gmail' },
+  { key: 'L', label: 'LinkedIn', hint: 'The professional version.', detail: 'in/saisumedhkaveti', href: links.linkedin, app: 'linkedin' },
+  { key: 'G', label: 'GitHub', hint: 'All the code, in public.', detail: '@SaiSumedh18', href: links.github, app: 'github' },
+  { key: 'R', label: 'Resume', hint: 'One page, one click.', detail: 'PDF', href: resume, app: 'pdf' },
 ]
 
 function Glow({ children }: { children: ReactNode }) {
@@ -110,10 +112,10 @@ function Contact() {
       <p className="contact-sub">Looking for software engineering roles from May 2027. Open to relocation. I reply fast.</p>
       <p className="contact-keys">psst, these work on your keyboard too: {shortcuts.map(item => <kbd key={item.key}>{item.key}</kbd>)}</p>
       <ul className="contact-grid">
-        {shortcuts.map(({ key, label, hint, detail, href, icon: Icon }) => {
-          const card = <a href={href} {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
+        {shortcuts.map(({ key, label, hint, detail, href, app }) => {
+          const card = <a href={href} className={`contact-${app}`} {...(href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}>
             <kbd>{key}</kbd>
-            <span className="contact-label"><Icon aria-hidden="true"/>{label}</span>
+            <span className="contact-label"><AppIcon app={app}/>{label}</span>
             <span className="contact-hint">{hint}</span>
             <span className="contact-detail">{detail}</span>
           </a>
@@ -126,6 +128,8 @@ function Contact() {
 }
 
 export default function App() {
+  const { theme, toggle } = useTheme()
+  const night = theme === 'dark'
   const [active, setActive] = useState('')
   useEffect(() => {
     const ids = ['journey', 'work', 'contact']
@@ -142,11 +146,16 @@ export default function App() {
     <a href="#main" className="skip-link">Skip to content</a>
     <header className="topbar">
       <a href="#top" className="avatar" aria-label="Sai Sumedh Kaveti, back to top"><Mark/></a>
-      <BorderBeam size="sm" colorVariant="sunset" theme="dark" strength={0.8} className="status-beam"><p className="status"><span className="status-dot" aria-hidden="true"/>Open to 2027 SWE roles</p></BorderBeam>
+      <div className="topbar-right">
+        <BorderBeam size="sm" colorVariant="sunset" theme="dark" strength={0.8} className="status-beam"><p className="status"><span className="status-dot" aria-hidden="true"/>Open to 2027 SWE roles</p></BorderBeam>
+        <button type="button" className="sky-toggle" onClick={toggle} aria-pressed={night} aria-label={night ? 'Switch to day' : 'Switch to night'}>
+          <span aria-hidden="true">{night ? '☀︎' : '☾'}</span><span className="sky-toggle-text">{night ? 'Day' : 'Night'}</span>
+        </button>
+      </div>
     </header>
 
     <main id="main">
-      <HeroSwitch/>
+      <HeroSwitch night={night}/>
       <Story/>
       <div className="tear" aria-hidden="true"/>
       <Journey/>

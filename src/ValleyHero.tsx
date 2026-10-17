@@ -56,11 +56,7 @@ const places: Record<PlaceId, Place> = {
 }
 const order: PlaceId[] = ['vnr', 'incois', 'ncstate', 'me']
 
-function readNight() {
-  try { return localStorage.getItem('valley-night') === '1' } catch { return false }
-}
-
-function ValleyHero() {
+function ValleyHero({ night }: { night: boolean }) {
   const section = useRef<HTMLElement>(null)
   const copy = useRef<HTMLDivElement>(null)
   const card = useRef<HTMLElement>(null)
@@ -68,7 +64,6 @@ function ValleyHero() {
   const [visible, setVisible] = useState(true)
   const [active, setActive] = useState<PlaceId | null>(null)
   const [explored, setExplored] = useState(false)
-  const [night, setNight] = useState(readNight)
 
   // Stop rendering while the hero is off screen.
   useEffect(() => {
@@ -112,10 +107,6 @@ function ValleyHero() {
   }, [active])
 
   const open = (id: PlaceId) => { setActive(id); setExplored(true) }
-  const toggleNight = () => setNight(current => {
-    try { localStorage.setItem('valley-night', current ? '0' : '1') } catch { /* storage unavailable */ }
-    return !current
-  })
   const place = active && places[active]
 
   return <section className={`hero hero-3d${night ? ' is-night' : ''}${active ? ' is-exploring' : ''}`} id="top" ref={section} aria-labelledby="hero-title">
@@ -124,9 +115,6 @@ function ValleyHero() {
         <Valley reduceMotion={reduceMotion} paused={!visible} eventSource={section} night={night} active={active} onSelect={open} showHint={!explored}/>
       </Suspense>
     </div>
-    <button type="button" className="sky-toggle" onClick={toggleNight} aria-pressed={night} aria-label={night ? 'Switch the valley to dusk' : 'Switch the valley to night'}>
-      <span aria-hidden="true">{night ? '☀︎' : '☾'}</span>{night ? 'Dusk' : 'Night'}
-    </button>
 
     <div className="hero-copy wrap" ref={copy}>
       <p className="hero-hey"><span className="wave" aria-hidden="true">👋</span> hey, I’m Sai Sumedh</p>
@@ -153,8 +141,8 @@ function ValleyHero() {
   </section>
 }
 
-export default function HeroSwitch() {
+export default function HeroSwitch({ night }: { night: boolean }) {
   const [webgl] = useState(hasWebGL)
   if (!webgl) return <Hero/>
-  return <SceneBoundary fallback={<Hero/>}><ValleyHero/></SceneBoundary>
+  return <SceneBoundary fallback={<Hero/>}><ValleyHero night={night}/></SceneBoundary>
 }

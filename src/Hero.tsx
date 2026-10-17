@@ -173,7 +173,7 @@ export default function Hero() {
     </svg>
 
     <div className="hero-copy wrap" ref={copy}>
-      <p className="hero-hey"><span className="wave" aria-hidden="true">👋</span> hey, I’m Sai Sumedh</p>
+      <p className="hero-hey"><span className="wave" aria-hidden="true">👋</span> hey, I’m <span className="hero-name">Sai Sumedh</span></p>
       <h1 id="hero-title">Building apps that don’t <span className="scribble">fall over.</span></h1>
       <p className="hero-sub">Software engineer. Data science grad who got hooked on what’s underneath.</p>
     </div>

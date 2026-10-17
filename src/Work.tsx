@@ -65,8 +65,35 @@ const projects = [
     notes: 'The body is built from rings with a faceted diamond cross-section, coloured face by face like folded paper. A travelling sine wave bends it as it swims, its tail beats faster at speed, and it steers toward your pointer or the nearest pellet. Reduced-motion settings get a slow, still drift.',
     method: 'A creative coding study, separate from the engineering projects above.',
   },
+  {
+    name: 'Beneath Europa', tag: 'The Long Descent', metric: '20', metricLabel: 'km of ice in one scroll',
+    colors: ['#2a8fa8', '#0d3a50'],
+    summary: 'A scroll-driven WebGL story for a concept mission: fly past Jupiter, land on Europa, then ride a melt probe through the ice shell into a dark, glowing ocean.',
+    stack: ['Three.js', 'GLSL', 'GSAP ScrollTrigger', 'Lenis', 'UnrealBloom', 'GitHub Pages'],
+    image: 'beneath-europa.jpg', alt: 'Beneath Europa: Jupiter and its icy, crack-streaked moon Europa beside the headline Beneath the Ice and a telemetry readout',
+    proof: [['0', 'textures downloaded; Europa and Jupiter are drawn by noise shaders'], ['3,200', 'bioluminescent particles animated entirely on the GPU']],
+    repo: 'beneath-europa', demo: 'https://saisumedh18.github.io/beneath-europa/',
+    demoNote: 'Scroll to descend. Best on a laptop or desktop.',
+    notes: 'Scroll position becomes a continuous story position, and the camera path, fog colour, bloom and live telemetry (altitude, then depth and temperature) are all functions of it. Europa’s rust-coloured cracks and Jupiter’s bands and Great Red Spot are simplex noise in fragment shaders. Two scenes share one camera, and a white-out flash hides the swap as the probe breaks through the surface. Reduced-motion settings get a still scene.',
+    method: 'A creative coding study. Europa figures are published estimates, and the mission is a concept.',
+  },
+  {
+    name: 'DRIFT-1', tag: 'The Playable Hero', metric: '9', metricLabel: 'waitlist API tests',
+    colors: ['#6b7174', '#25292b'],
+    summary: 'A landing page for a made-up pocket synth where the hero is the instrument: a liquid-chrome form and a live Web Audio synth share three knobs.',
+    stack: ['Three.js', 'GLSL', 'Web Audio API', 'Vercel Functions', 'Upstash Redis', 'Node test runner'],
+    image: 'drift-1.jpg', alt: 'DRIFT-1: a liquid-chrome form with an orange glow above the DRIFT-1 headline and a hardware panel with three knobs',
+    proof: [['3', 'knobs that drive the sound and the shader together'], ['9', 'API tests: validation, dedupe, honeypot, rate limit, admin auth']],
+    repo: 'drift-1', demo: 'https://saisumedh18.github.io/drift-1/',
+    demoNote: 'Press “Hear it” for sound, then turn the knobs. The waitlist runs on the Vercel deployment.',
+    notes: 'A sphere is displaced by simplex noise in the vertex shader, with normals rebuilt per vertex and a procedural studio environment for the chrome. Three detuned voices run through a resonant filter, an LFO and a feedback delay, and the synth’s loudness feeds back into the surface. The waitlist is a serverless function that validates and dedupes emails in Redis, rate-limits by hashed IP, ignores a honeypot field and has a token-protected admin list.',
+    method: 'Counts describe what’s built, not performance.',
+  },
 ]
 type Project = typeof projects[number]
+
+const numberWords = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve']
+const projectCount = numberWords[projects.length] ?? String(projects.length)
 
 export default function Work() {
   const [open, setOpen] = useState<Project | null>(null)
@@ -81,12 +108,12 @@ export default function Work() {
       <header className="section-intro">
         <p className="kicker">Selected work</p>
         <h2 id="work-title">Things I built, and the numbers they moved.</h2>
-        <p>Five projects, all live and open source. Pick a card from the box.</p>
+        <p>{projectCount} projects, all live and open source. Pick a card from the box.</p>
       </header>
 
       <div className="box">
         <div className="box-back" aria-hidden="true"/>
-        <ul className="cards">
+        <ul className="cards" style={{ '--n': projects.length } as React.CSSProperties}>
           {projects.map((project, i) => <li key={project.name} style={{ '--i': i, '--c1': project.colors[0], '--c2': project.colors[1] } as React.CSSProperties}>
             <button type="button" className="card" onClick={() => setOpen(project)}>
               <span className="card-tag">{project.tag}</span>
